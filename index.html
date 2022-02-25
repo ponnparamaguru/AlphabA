@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Alphabet</title>
+        <script src="https://aframe.io/releases/1.0.3/aframe.min.js"></script>
+        <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
+        <script>
+            AFRAME.registerComponent('hide-in-ar-mode', {
+            init: function () {
+                this.el.sceneEl.addEventListener('enter-vr', (ev) => {
+                this.wasVisible = this.el.getAttribute('visible');
+                    if (this.el.sceneEl.is('ar-mode')) {
+                        this.el.setAttribute('visible', false);
+                    }
+                });
+                this.el.sceneEl.addEventListener('exit-vr', (ev) => {
+            if (this.wasVisible) this.el.setAttribute('visible', true);
+          });
+        }
+      });
+        </script>
+    </head>
+    <body>
+        <a-scene physics="gravity: 0.2; restitution: 0.9">
+           <a-assets timeout="30000">
+                <a-asset-item id="A" src="https://ekalaiva-ai.com/ar/resources/ar/alphabet_A/alphabet_A.glb" response-type="arraybuffer"></a-asset-item>
+            </a-assets>
+            <a-camera position="0 1 2"></a-camera> 
+
+            <a-plane color="skyblue" height="15" width="15" position="0 0 -3" 
+                rotation="-90 0 0" static-body hide-in-ar-mode>
+            </a-plane>
+
+            <a-entity position="0 2 -1" rotation="0 0 0" scale="5 5 1"
+                  gltf-model = #A dynamic-body
+                  ></a-entity>
+        </a-scene>
+    </body>
+</html>
